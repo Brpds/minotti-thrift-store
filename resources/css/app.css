@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@layer components {
+  .link-hover {
+    @apply transition-all duration-300 ease-in;
+    @apply hover:border-b-2 hover:border-current;
+    @apply hover:text-[#d087cb];
+    @apply scale-105;
+    @apply transition-transform;
+  }
+
+  .input-patina {
+    @apply text-left;
+    @apply w-full; 
+    @apply bg-surface-variant; 
+    @apply border-none;
+    @apply rounded-DEFAULT;
+    @apply px-4;
+    @apply py-4;
+    @apply text-on-surface;
+    @apply placeholder:text-outline;
+    @apply focus:ring-2;
+    @apply focus:ring-primary/20;
+    @apply font-medium;
+  }
+
+  .label-patina{
+    @apply block; 
+    @apply text-sm;
+    @apply font-bold; 
+    @apply text-on-surface-variant; 
+    @apply ml-1;
+  }
+
+  .textarea-patina{
+    @apply w-full;
+    @apply bg-surface-variant;
+    @apply border-none;
+    @apply rounded-DEFAULT;
+    @apply px-4;
+    @apply py-4;
+    @apply text-on-surface;
+    @apply placeholder:text-outline;
+    @apply focus:ring-2;
+    @apply focus:ring-primary/20;
+    @apply font-medium;
+    @apply resize-none;
+  }
+}
