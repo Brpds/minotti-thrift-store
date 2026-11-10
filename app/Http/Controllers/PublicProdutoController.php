@@ -56,11 +56,13 @@ class PublicProdutoController extends Controller
     public function destaque(){
 
         $destaques = Produto::where('destaque', true)
+        ->where('status', 'disponivel')
         ->take(4)
         ->get();
 
-        while($destaques->count() < 4){
+        if($destaques->count() < 4){
             $extra = Produto::where('destaque', false)
+            ->where('status', 'disponivel')
             ->inRandomOrder()
             ->take(4 - $destaques->count())
             ->get();

@@ -63,7 +63,7 @@
                             status: {titulo: 'Status', tipo:'text'},
                             id:{titulo: 'ID', tipo: 'text'},
                         }"
-                        :srcUrlPath="`https://minottinoninha.sfo3.cdn.digitaloceanspaces.com/`"
+                        :srcUrlPath="srcUrlPath"
                         ></table-component>
                     </template>
                     <template v-slot:rodape>
@@ -634,7 +634,7 @@ export default {
             urlBase: 'http://127.0.0.1:8000/api/v1/produtos',
             urlPaginacao: '',
             urlFiltro: '',
-            srcUrlPath: 'https://website.sample.cdn.digitaloceanspaces.com/',
+            srcUrlPath: '/storage/',
             nomeProduto: '',
             tamanho: '',
             categoriaProduto: {},
@@ -684,13 +684,13 @@ export default {
                 this.categoriaProduto = item.categoria || {};
                 this.descricaoProduto = item.descricao || '';
                 this.marcaProduto = item.marca || {};
-                this.condicaoProduto = item.condicaoProduto || '';
+                this.condicaoProduto = item.condicao || '';
                 this.valorVendaProduto = item.valor_venda;
                 this.tipoDivisaoProduto = item.tipo_divisao || '';
                 this.fornecedorProduto = item.fornecedor || {};
                 this.statusProduto = item.status || '';
                 this.parteLoja = item.parte_loja;
-                this.tamanho = item.tamaho || '';
+                this.tamanho = item.tamanho || '';
                 this.imagemProduto = this.imagemProduto;
                 this.etiquetaProduto = item.etiqueta;
 

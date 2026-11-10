@@ -60,7 +60,7 @@
                             <span
                                 v-for="item in categorias"
                                 :key="item.id"
-                                @click="filtros.categoria === item.nome ? filtros.categoria = '' : filtros.categoria = item.id"
+                                @click="filtros.categoria === item.id ? filtros.categoria = '' : filtros.categoria = item.id"
                                 :class="[
                                   'px-3 py-1.5 rounded-full text-xs font-medium cursor-pointer transition-colors',
                                   filtros.categoria === item.id
@@ -147,6 +147,24 @@ import axios from 'axios';
     export default {
         
         data(){
+            const params = new URLSearchParams(typeof window === 'undefined' ? '' : window.location.search);
+            const idade = params.get('idade') || '';
+            const categoria = params.get('categoria') || '';
+            const idades = [
+                { label: 'RN', value: 'RN' },
+                { label: 'P', value: 'P' },
+                { label: 'M', value: 'M' },
+                { label: 'G', value: 'G' },
+                { label: '1', value: '1' },
+                { label: '2', value: '2' },
+                { label: '3', value: '3' },
+                { label: '4', value: '4' },
+                { label: '6', value: '6' },
+                { label: '8', value: '8' },
+                { label: '10', value: '10' },
+                { label: '12', value: '12' },
+            ];
+
             return {
                 produtos: [],
                 loading: false,
@@ -156,25 +174,13 @@ import axios from 'axios';
                 filtros: {
                     nome: '',
                     condicao: '',
-                    categoria: '',
+                    categoria: /^[1-9]\d*$/.test(categoria) && Number.isSafeInteger(Number(categoria)) ? Number(categoria) : '',
+                    idade: idades.some(item => item.value === idade) ? idade : '',
                     tamanho: '',
                     order_by: ''
                 },
                 categorias:[],
-                idades:[
-                    { label: 'RN', value: 'RN' },
-                    { label: 'P', value: 'P' },
-                    { label: 'M', value: 'M' },
-                    { label: 'G', value: 'G' },
-                    { label: '1', value: '1' },
-                    { label: '2', value: '2' },
-                    { label: '3', value: '3' },
-                    { label: '4', value: '4' },
-                    { label: '6', value: '6' },
-                    { label: '8', value: '8' },
-                    { label: '10', value: '10' },
-                    { label: '12', value: '12' },
-                ],
+                idades,
                 calcados: [
                     {label: '17', value: '17' },
                     {label: '18', value: '18' },
@@ -232,6 +238,7 @@ import axios from 'axios';
                     nome: this.filtros.nome,
                     condicao: '',
                     categoria: '',
+                    idade: '',
                     tamanho: '',
                     order_by: ''
                 }

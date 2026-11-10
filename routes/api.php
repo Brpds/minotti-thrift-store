@@ -12,7 +12,7 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 
-Route::prefix('v1')->middleware('jwt.auth')->group(function(){
+Route::prefix('v1')->middleware(['jwt.auth', 'admin:api'])->group(function(){
     // INÍCIO do grupo de rotas para load de opções no formulário
     
     Route::get('/opcoes/status', 'App\Http\Controllers\OpcoesController@configOpcoesStatus');
@@ -31,10 +31,12 @@ Route::prefix('v1')->middleware('jwt.auth')->group(function(){
     Route::apiResource('categorias', 'App\Http\Controllers\CategoriaController');
     Route::apiResource('marcas', 'App\Http\Controllers\MarcaController');
     Route::apiResource('produtos', 'App\Http\Controllers\ProdutoController');
+});
+
+Route::prefix('v1')->middleware('jwt.auth')->group(function(){
     Route::post('me', 'App\Http\Controllers\AuthController@me');
     Route::post('refresh', 'App\Http\Controllers\AuthController@refresh');
     Route::post('logout', 'App\Http\Controllers\AuthController@logout');
-    
 });
 
 Route::get('categorias/publiclist', ['App\Http\Controllers\CategoriaController', 'publiclist'])->name('api.categorias.test');

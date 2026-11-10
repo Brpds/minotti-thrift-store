@@ -18,7 +18,7 @@
             <div class="space-y-2">
             
             <h1 class="font-headline text-4xl font-bold tracking-tight text-on-background leading-tight">{{ produto.nome }}</h1>
-            <p class="text-3xl font-headline font-semibold text-twprimary">R$ {{ formatPrice(valorVenda) }}</p>
+            <p class="text-3xl font-headline font-semibold text-twprimary">{{ formatPrice(valorVenda) }}</p>
             <p class="text-[24px] text-on-surface-variant">Tamanho: {{produto.tamanho ? produto.tamanho :'Único'}}</p>
             </div>
             <div class="flex flex-col gap-6 p-8 bg-surface-container-low rounded-lg border border-outline-variant/10">

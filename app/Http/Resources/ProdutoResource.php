@@ -21,7 +21,7 @@ class ProdutoResource extends JsonResource
             'nome' => $this->nome,
             'valor_venda' => $this->valor_venda,
             #para retornar o pathlink completo direto do backend
-            'imagem' => Storage::url($this->imagem),
+            'imagem' => Storage::disk('public')->url($this->imagem),
             'categoria' => $this->categoria,
             'tamanho' => $this->tamanho,
             'descricao' => $this->descricao,

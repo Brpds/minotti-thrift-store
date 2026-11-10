@@ -65,9 +65,9 @@ const subscribe = async () => {
       <section class="py-20 px-6 max-w-7xl mx-auto">
         <h2 class="font-['Plus_Jakarta_Sans'] text-3xl font-bold mb-8">Explore por Etapas</h2>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" id="categories">
           <div v-for="cat in categories" :key="cat.id" class="group cursor-pointer">
-            <a class="text-decoration-none" href="/vitrine">
+            <a class="text-decoration-none" :href="urlCategoria(cat)">
               <div class="overflow-hidden transition-transform duration-500 group-hover:scale-[1.02] aspect-square bg-surface-container rounded-xl mb-4">
                   <img class="rounded-xl w-full h-full object-cover grayscale-[0.2] group-hover:grayscale-0 transition-all" :src="`storage/imagens/frontpage/frontpage-category-${cat.id}.png`">
               </div>
@@ -164,11 +164,19 @@ const subscribe = async () => {
 			return{
 				categories: [
 					{id: '1', nome: 'Recém-Nascidos', subtitle: 'RN - 24 meses'},
-					{id: '2', nome: 'Pequeninos', subtitle: '2 - 5 anos'},
-					{id: '3', nome: 'Crianças', subtitle: '5 - 12 anos'},
+					{id: '2', nome: 'Pequeninos', subtitle: '2 - 6 anos'},
+					{id: '3', nome: 'Crianças', subtitle: '6 - 12 anos'},
 					{id: '4', nome: 'Brinquedos e Acessórios', subtitle: ''},
 				],
 			}
-		}
+		},
+        methods: {
+            urlCategoria(cat) {
+                const idade = cat.subtitle.split('-')[0].trim();
+                if (!idade) return '/vitrine';
+
+                return '/vitrine?' + new URLSearchParams({ idade, categoria: '3' }).toString();
+            },
+        },
 	}
 </script>

@@ -51,39 +51,33 @@ class ProdutoController extends Controller
             $request->merge(['status' => 'pendente']);
         }
 
-        $request->validate($this->produto->rules(), $this->produto->feedback());
+        $request->validate(array_merge($this->produto->rules(), [
+            'imagem' => 'required|file|mimes:png,jpg,jpeg',
+        ]), $this->produto->feedback());
 
-        $imagem = $request->file('imagem');
+        $imagem_urn = Storage::disk('public')->putFile('imagens/produtos', $request->file('imagem'));
+        abort_if($imagem_urn === false, 500, 'Não foi possível salvar a imagem.');
 
-        #dd($imagem);
-        #$imagem_urn = $imagem->store('imagens/produtos', 'public');
-        /*$path = $request->file('imagem')->store('imagens/produtos', 's3');
-        Storage::disk('s3')->setVisibility($path, 'public');*/
-
-        $imagem_urn = Storage::disk('s3')->putFile('imagens/produtos', $request->file('imagem'), 'public');
-
-        //dd($path);
-        /*$imagem_urn = $request->file('imagem')
-            ->store('imagens/produtos', 's3');
-        
-        Storage::disk('s3')->setVisibility($imagem_urn, 'public');*/
-
-        $produto = $this->produto->create([
-            'nome' => $request->nome,
-            'categoria_id' => $request->categoria_id,
-            'descricao' => $request->descricao,
-            'marca_id' => $request->marca_id,
-            'valor_venda' => $request->valor_venda,
-            'tipo_divisao' => $request->tipo_divisao,
-            'fornecedor_id' => $request->fornecedor_id,
-            'status' => $request->status,
-            'parte_loja' => $request->parte_loja,
-            'imagem' => $imagem_urn,
-            'tamanho' => $request->tamanho,
-            'condicao' => $request->condicao,
-            'etiqueta' => $request->etiqueta,
-            ]
-        );
+        try {
+            $produto = $this->produto->create([
+                'nome' => $request->nome,
+                'categoria_id' => $request->categoria_id,
+                'descricao' => $request->descricao,
+                'marca_id' => $request->marca_id,
+                'valor_venda' => $request->valor_venda,
+                'tipo_divisao' => $request->tipo_divisao,
+                'fornecedor_id' => $request->fornecedor_id,
+                'status' => $request->status,
+                'parte_loja' => $request->parte_loja,
+                'imagem' => $imagem_urn,
+                'tamanho' => $request->tamanho,
+                'condicao' => $request->condicao,
+                'etiqueta' => $request->etiqueta,
+            ]);
+        } catch (\Throwable $exception) {
+            Storage::disk('public')->delete($imagem_urn);
+            throw $exception;
+        }
 
         return response()->json($produto, 201);
     }
@@ -134,26 +128,29 @@ class ProdutoController extends Controller
 
          $dados = $request->except('imagem');
 
-        // HANDLE IMAGE IF SENT
+        $imagemAnterior = $produto->imagem;
+        $imagemPath = null;
+
         if ($request->hasFile('imagem')) {
-
-            // Delete old image if exists
-            if ($produto->imagem) {
-                Storage::disk('s3')->delete($produto->imagem);
-            }
-
-            // Store new image
-            #$imagemPath = $request->file('imagem')
-            #    ->store('imagens/produtos', 'public');
-
-            $imagemPath = Storage::disk('s3')->putFile('imagens/produtos', $request->file('imagem'), 'public');
+            $imagemPath = Storage::disk('public')->putFile('imagens/produtos', $request->file('imagem'));
+            abort_if($imagemPath === false, 500, 'Não foi possível salvar a imagem.');
 
             // Inject stored path into data
             $dados['imagem'] = $imagemPath;
         }
 
-        // UPDATE PRODUCT
-        $produto->update($dados);
+        try {
+            $produto->update($dados);
+        } catch (\Throwable $exception) {
+            if ($imagemPath !== null) {
+                Storage::disk('public')->delete($imagemPath);
+            }
+            throw $exception;
+        }
+
+        if ($imagemPath !== null && $imagemAnterior) {
+            Storage::disk('public')->delete($imagemAnterior);
+        }
 
         /*$imagem = $request->file('imagem');
         $imagem_urn = $imagem->store('imagens/produtos', 'public');
@@ -173,9 +170,8 @@ class ProdutoController extends Controller
             return response()->json(['erro' => 'Impossível excluir. Recurso não existe!'], 404);
         }
 
-        Storage::disk('s3')->delete($produto->imagem);
-
         $produto->delete();
+        Storage::disk('public')->delete($produto->imagem);
         return response()->json(['msg' => 'Excluído com sucesso!'], 200);
     }
 }

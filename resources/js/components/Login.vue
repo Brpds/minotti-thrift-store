@@ -33,6 +33,7 @@
                 Login
             </button>
             </form>
+            <p v-if="loginError" role="alert" class="mt-4 text-danger">{{ loginError }}</p>
             
             <!-- Tonal Info Block (Bento style hint) -->
             <div class="mt-6 bg-secondary-container/30 backdrop-blur-md p-6 rounded-lg flex items-start gap-4">
@@ -55,28 +56,40 @@ export default {
     props:['csrfToken'],
     methods:{
         login(e){
-            let url = 'http://127.0.0.1:8000/api/login';
+            this.loginError = '';
+            let url = '/api/login';
             let configuracao = {
                 method: 'post',
+                headers: { 'Accept': 'application/json' },
                 body: new URLSearchParams({
                     'email' : this.email,
                     'password' : this.password
                 })
             }
             fetch(url, configuracao)
-                .then(response => response.json())
+                .then(async response => {
+                    const data = await response.json();
+                    if (!response.ok || !data.token) {
+                        throw new Error(data.erro || 'Não foi possível entrar.');
+                    }
+                    return data;
+                })
                 .then(data => {
                     if(data.token){
                         document.cookie = 'token='+data.token+';SameSite=Lax'
                     }
                 e.target.submit();
                 })
+                .catch(error => {
+                    this.loginError = error.message;
+                });
         }
     },
     data(){
         return {
             email: '',
             password: '',
+            loginError: '',
         }
     }
 }

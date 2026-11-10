@@ -1,66 +1,180 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Minotti
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A thrift-store product catalog and administrative inventory system built with Laravel and Vue, with WhatsApp purchase inquiries. The application interface is in **Brazilian Portuguese**.
 
-## About Laravel
+**Archived business project — no longer deployed.** Minotti was developed and deployed for a real thrift-store business that has since closed. Its former production infrastructure is inactive; this repository preserves the project for portfolio review and local exploration.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Context and contribution
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+This was my first independently developed application after completing an Udemy course. As the solo developer of the original application, I implemented the storefront, inventory screens, database models, APIs, and authentication flow, and deployed it for the business.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The portfolio version retains that architecture, with focused correctness, authorization, and local-storage fixes. It demonstrates the work and tradeoffs of an early independent project; it is not a production-ready commerce platform. Purchases are handled through inquiries outside the application, rather than a cart, checkout, payment gateway, or order-management workflow. Additional reason being, the original purpose of the application was inventory control and elimination of physical paperwork, while allowing direct reservation via WhatsApp.
 
-## Learning Laravel
+## Implemented features
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+**Storefront**
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+- Product catalog with name search, category, condition, and clothing/shoe-size filters, plus load-more pagination.
+- Homepage clothing cards that open the catalog with an exact size filter: `RN`, `2`, or `6`.
+- Featured available products and product details with price, condition, size, description, and image.
+- WhatsApp inquiry-link generation, business information pages, and email subscription capture. Contact destinations in this portfolio copy are placeholders; subscription capture does not send campaigns.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Administration**
 
-## Laravel Sponsors
+- Product creation, viewing, editing, deletion, search, and pagination through `/produtos`.
+- Brand, category, and supplier management, including searchable relationship selectors.
+- Available, sold, and pending inventory statuses; item labels; supplier ownership; division type and store-share fields for consignment inventory.
+- Product image upload, replacement, and deletion using Laravel's public disk.
+- Administrator checks for dashboard pages and administrative APIs; public registration is disabled.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+## Preview
 
-### Premium Partners
+Actual application captures from the repository. The catalog shown in these images is not automatically recreated by the supplied seeders.
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+| Homepage — desktop | Dashboard Home — desktop |
+| --- | --- |
+| <a href="docs/screenshots/1-homepage.png"><img src="docs/screenshots/3-single_product.png" alt="Desktop frontpage View" width="460"></a> | <a href="docs/screenshots/1-homepage.png"><img src="docs/screenshots/5-dashboard_home.png" alt="Desktop Home Panel" width="460"></a>
 
-## Contributing
+More desktop views: [single product](docs/screenshots/3-single_product.png), [catalog](docs/screenshots/2-catalogue.png), [catalog filters](docs/screenshots/2-catalogue_filter_on.png).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+<details>
+<summary>Mobile views</summary>
 
-## Code of Conduct
+| Catalog | Product details |
+| --- | --- |
+| <a href="docs/screenshots/2-catalogue_mobile.png"><img src="docs/screenshots/2-catalogue_mobile.png" alt="Mobile catalog with two-column product cards and load-more navigation" width="180"></a> | <a href="docs/screenshots/3-single_product_mobile.png"><img src="docs/screenshots/3-single_product_mobile.png" alt="Mobile product details with vertically stacked image and inquiry button" width="180"></a> |
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+</details>
 
-## Security Vulnerabilities
+## Technology and technical highlights
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+| Area | Implementation |
+| --- | --- |
+| Backend | PHP 8.2+, Laravel 11; framework locked to 11.34.2 |
+| Frontend | Vue 3, Vuex 4, Axios, Blade templates |
+| Styling and assets | Bootstrap 5, Tailwind CSS 3, Sass, Vite 5 |
+| Database | Eloquent ORM and migrations; MySQL in the example environment |
+| Authentication | Laravel UI session login and `tymon/jwt-auth` Bearer tokens |
+| Checks | PHPUnit 11 and Node's built-in test runner with Vue compilation/rendering tests |
 
-## License
+The implementation includes relational inventory modeling, monetary values stored as integer cents, a dedicated public product resource that excludes internal supplier/share fields, allowlisted administrative query selections and filters, and reusable tables, modals, selectors, and pagination components.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+See [the architecture overview](docs/architecture.md) for request flow, relationships, authentication boundaries, and tradeoffs.
+
+## Run locally
+
+### 1. Requirements and dependencies
+
+Use PHP 8.2+ with Laravel's required extensions and `pdo_mysql`, Composer, MySQL, and a Node.js version compatible with Vite 5 (`^18.0.0` or `>=20.0.0`) with npm. PHP's `pdo_sqlite` extension is also needed for the automated PHP tests. This repository preserves the original implementation. Local setup requires synthetic inventory and image assets, which are not bundled with the source.
+
+From the cloned repository directory:
+
+```sh
+composer install
+npm ci
+php -r "file_exists('.env') || copy('.env.example', '.env');"
+```
+
+### 2. Environment and database
+
+Create an empty, dedicated local MySQL database named `minotti`. Edit `.env` to use your own local database connection:
+
+```dotenv
+APP_ENV=local
+APP_URL=http://127.0.0.1:8000
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=minotti
+DB_USERNAME=your_local_database_user
+DB_PASSWORD=your_local_database_password
+```
+
+Generate independent local application and JWT secrets, then create the database tables:
+
+```sh
+php artisan key:generate
+php artisan jwt:secret
+php artisan migrate
+```
+
+`jwt:secret` adds `JWT_SECRET` to `.env`; it is not present in the current example file. Keep `.env` and generated secrets out of Git. The example environment uses database-backed sessions and cache, whose tables are included in the migrations.
+
+### 3. Reference data and local administrator
+
+The default `DatabaseSeeder` does not create records. On a fresh database, run the reference seeders once:
+
+```sh
+php artisan db:seed --class=CategoriasBaseSeeder
+php artisan db:seed --class=RoupaSeeder
+php artisan db:seed --class=CalcadoSeeder
+```
+
+These seeders insert records and are not idempotent. The application expects category IDs `1 = Outros`, `2 = Calçados`, and `3 = Roupas`, which their insertion order supplies on an empty database.
+
+Public registration is disabled. Create your own local administrator with `php artisan tinker`, replacing the password placeholder before running:
+
+```php
+App\Models\User::create([
+    'nome' => 'Local Admin',
+    'email' => 'admin@example.test',
+    'password' => 'replace-with-a-local-demo-password',
+    'role' => 'admin',
+]);
+```
+
+The user model hashes the password. An `AdminSeeder` also exists but is not called by the default seeder; the example above lets you choose your own local identity and password.
+
+### 4. Images and synthetic inventory
+
+```sh
+php artisan storage:link
+```
+
+Product images are stored in `storage/app/public/imagens/produtos` and served through `/storage/imagens/produtos/...`. Product operations explicitly use the `public` disk, so changing `FILESYSTEM_DISK` globally is unnecessary. Database image values must remain relative paths such as `imagens/produtos/example.jpg`.
+
+If `public/storage` already exists as an ordinary directory, inspect and preserve its files before replacing it with the standard link. On Windows, Laravel may create a directory junction.
+
+Uploaded files and the local database are gitignored. No complete synthetic inventory or image fixture set is supplied. To populate a fresh installation:
+
+1. After starting the application, sign in and create synthetic brands and suppliers through the dashboard. Reserve the first brand and supplier (ID `1`) as the store/fallback records expected by deletion logic.
+2. Use synthetic supplier identity, address, contact, and payment-key values that satisfy the form rules. Do not import former business/customer data.
+3. Add products through `/produtos`, with locally available PNG/JPEG images, and mark products `disponivel` to show them publicly. Featured products fall back to other available items.
+
+For the decorative homepage images, provide permitted assets under `storage/app/public/imagens/frontpage/`: `frontpagemodel.png` and `frontpage-category-1.png` through `frontpage-category-4.png`. These storage assets are also gitignored. The screenshot files document the interface; they are not upload fixtures.
+
+### 5. Start the application
+
+Run these commands in separate terminals:
+
+```sh
+php artisan serve --host=127.0.0.1 --port=8000
+```
+
+```sh
+npm run dev
+```
+
+Open <http://127.0.0.1:8000>. Log in at `/login`; inventory is at `/produtos`. Use this exact host and port because several existing frontend API URLs are hardcoded to it. `npm run build` is available for compiled assets instead of the Vite development server; avoid a stale `public/hot` file when using a build.
+
+AWS credentials and the former S3-compatible service are not required for the current product-image flow. Some information pages still use remote images and fonts.
+
+## Automated checks
+
+```sh
+php vendor/phpunit/phpunit/phpunit --do-not-cache-result
+node --test tests/Frontend/*.test.cjs
+```
+
+The tests cover administrator boundaries, query validation, featured-product edge cases, login handoff, image lifecycle behavior, component rendering, and homepage-to-catalog navigation. PHP tests use in-memory SQLite; image mutation tests use disposable synthetic records and fake storage. They do not establish a fully tested fresh MySQL installation or end-to-end browser coverage.
+
+## Known scope and limitations
+
+- No cart, checkout, payment processing, or order-management workflow is implemented.
+- User management, reports, reviews, and the newer `/adicionar` entry screen are unfinished. Use the product-management screen for inventory entry.
+- The WhatsApp destination is a placeholder; its message still uses a dashboard-style product path and an unformatted stored price. It is not a live sales channel in this copy.
+- The toys/accessories homepage card remains unfiltered. Clothing cards select one exact size, not every size in the displayed range.
+- A fresh clone requires manual synthetic inventory and asset provisioning; screenshots show an already populated local installation.
+- Session and JWT logout are separate paths. Existing security and validation limitations are described in the [architecture overview](docs/architecture.md#boundaries-and-limitations); this is a local portfolio application, not a deployment-ready release.
+
+The original business is closed and **there is no active hosted application**. No standalone project license file is included.

@@ -13,7 +13,7 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        $middleware->alias(['jwt.auth', \App\HTTP\Middleware\JWTAuthMiddleware::class]);
+        $middleware->alias(['admin' => \App\Http\Middleware\EnsureUserIsAdmin::class]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //
