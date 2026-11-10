@@ -33,7 +33,7 @@ Actual application captures from the repository. The catalog shown in these imag
 
 | Homepage — desktop | Dashboard Home — desktop |
 | --- | --- |
-| <a href="docs/screenshots/1-homepage.png"><img src="docs/screenshots/3-single_product.png" alt="Desktop frontpage View" width="460"></a> | <a href="docs/screenshots/1-homepage.png"><img src="docs/screenshots/5-dashboard_home.png" alt="Desktop Home Panel" width="460"></a>
+| <a href="docs/screenshots/1-homepage.png"><img src="docs/screenshots/1-homepage.png" alt="Desktop frontpage View" width="460"></a> | <a href="docs/screenshots/1-homepage.png"><img src="docs/screenshots/5-dashboard_home.png" alt="Desktop Home Panel" width="460"></a>
 
 More desktop views: [single product](docs/screenshots/3-single_product.png), [catalog](docs/screenshots/2-catalogue.png), [catalog filters](docs/screenshots/2-catalogue_filter_on.png).
 
